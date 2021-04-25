@@ -76,9 +76,10 @@ class Bisection extends React.Component {
             ERROR: e.target.value,
         });
     }   
+
     show_value = e =>{
         this.setState({
-            result: calBisection(this.state.EX,this.state.XL,this.state.XR,this.state.ERROR)
+            result: calBisection(this.state.Equation,this.state.XL,this.state.XR,this.state.ERROR)
         });
     }   
 
@@ -87,25 +88,26 @@ class Bisection extends React.Component {
     render() {
         return (
             <div className="allinbisetion" >
-                <h1 className="Ontop">Bisection Method</h1>
-                <div>
-                <Modal_Example
+                 <Modal_Example
                     visible = {this.state.isModalVisible}
                     onOk = {this.onClickOk}
                     hasData = {this.state.hasData}
                     apiData = {this.state.apiData}
                     onClick = {this.onClickInsert}
                 />
+                <h1 className="Ontop">Bisection Method</h1>
+                <div>
+               
                     <span>F(x) =</span>
-                    <span><Input placeholder="x^4-13" onChange={this.getEquation} className="Input_1" /></span>
+                    <span><Input placeholder="x^4-13" onChange={this.getEquation} className="Input_1" value ={this.state.Equation} /></span>
                 </div>
                 <div>
                     <span className="Text_Input_2"> XL : </span>
-                    <span><Input placeholder="1.5" onChange={this.getXL} className="Input_2" /></span>
+                    <span><Input placeholder="1.5" onChange={this.getXL} className="Input_2" value ={this.state.XL} /></span>
                     <span className="Text_Input_2"> XR : </span>
-                    <span><Input placeholder="2.0" onChange={this.getXR} className="Input_2" /></span>
+                    <span><Input placeholder="2.0" onChange={this.getXR} className="Input_2" value ={this.state.XR} /></span>
                     <span className="Text_Input_2"> ERROR : </span>
-                    <span><Input placeholder="0.000001" onChange={this.getERR} className="Input_3" /></span>
+                    <span><Input placeholder="0.000001" onChange={this.getERR} className="Input_3" value ={this.state.ERROR} /></span>
                     <span className="Poom"><Button type="primary" onClick={this.show_value} >Calculate</Button></span>
                     <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
                 </div>

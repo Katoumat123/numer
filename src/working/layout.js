@@ -20,6 +20,7 @@ import Spline_interpolation from './Spline_interpolation.js'
 import Linear_Regression from './Linear_Regression.js'
 import Polynomial_Regression from './Polynomial_Regression.js'
 import Multiple_Linear from './Multiple_Linear.js'
+import Swaggeradd from '../input/swagger.js'
 
 import { Route } from "react-router-dom";
 import { HashRouter } from 'react-router-dom';
@@ -90,6 +91,7 @@ class Lay extends React.Component {
                                     {<Route path ="/Linear_Regression" component = {Linear_Regression}></Route>}
                                     {<Route path ="/Polynomial_Regression" component = {Polynomial_Regression}></Route>}
                                     {<Route path ="/Multiple_Linear" component = {Multiple_Linear}></Route>}
+                                    {<Route path ="/Swaggeradd" component = {Swaggeradd}></Route>}
                                 </Content>
                                 
                             </Layout>
