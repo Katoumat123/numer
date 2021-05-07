@@ -1,5 +1,9 @@
 @import '~antd/dist/antd.css';
 
+.App {
+  text-align: center;
+}
+
 #components-layout-demo-top-side .logo {
   float: left;
   width: 120px;
@@ -16,4 +20,5 @@
 .site-layout-background {
   background: #fff;
 }
+
 

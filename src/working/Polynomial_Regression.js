@@ -2,7 +2,9 @@ import React from 'react'
 import { Row, Col } from 'antd'
 import { Input, Button } from 'antd'
 import { InputXY } from '../input/inputmatrix'
-import { calPolynoial } from './cal_all'
+import { calPolynoial,copyArray } from './cal_all'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 
 class Polynomial extends React.Component {
     state = {
@@ -16,11 +18,32 @@ class Polynomial extends React.Component {
         hasData: false
     }
   
+    async getData() {
+        let tempData = null
+        await apis.getRegession().then(res => { tempData = res.data })
+        this.setState({ apiData: tempData })
+        this.setState({ hasData: true })
+        /* console.log(tempData); */
+    }
 
     onClickOk = e =>{
         this.setState({isModalVisible: false})
     }
 
+    onClickInsert = e => {
+        /*         console.log(e.currentTarget);
+                console.log(e.target);
+                console.log(e.currentTarget.getAttribute('name'));
+                console.log(e.target.name); */
+        let index = e.currentTarget.getAttribute('name').split('_')
+        index = parseInt(index[1])
+        this.setState({
+            matrixA: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
+            n: this.state.apiData[index]["n"],
+            valueX: this.state.apiData[index]["x"],
+            isModalVisible: false
+        })
+    }
  
 
     onClickExample = e =>{
@@ -63,15 +86,22 @@ class Polynomial extends React.Component {
         return (
 
             <div className="allinpolynomial">
+                  <Modal_Example
+                    visible={this.state.isModalVisible}
+                    onOk={this.onClickOk}
+                    hasData={this.state.hasData}
+                    apiData={this.state.apiData}
+                    onClick={this.onClickInsert}
+                />
                 <h1 className="Ontop">polynomial Regression</h1>
                 
                 <Row>
                     <Row className='rowButtonmatrix'>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixadd}> เพิ่มขนาดเมตตริกซ์ </Button>
+                            <Button type="primary" onClick={this.onClickmatrixadd}> ADD point</Button>
                         </Col>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixdel}> ลดขนาดเมตตริกซ์ </Button>
+                            <Button type="primary" onClick={this.onClickmatrixdel}> Del point </Button>
                         </Col>
 
                     </Row>

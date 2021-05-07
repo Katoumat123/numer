@@ -4,9 +4,12 @@ import { Input, Button, Table, Modal } from 'antd'
 
 import { MatrixInputA, MatrixInputB } from '../input/inputmatrix'
 
-import { calCramer } from './cal_all'
+import { calCramer,copyArray } from './cal_all'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 
-class Cramer extends React.Component{
+
+class Cremeru extends React.Component{
     
     state = 
     {
@@ -18,13 +21,33 @@ class Cramer extends React.Component{
         apiData: [],
         hasData: false
     }
-   
+    async getData()
+    {
+        let tempData = null
+        await apis.getmatrix().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+        /* console.log(tempData); */
+    }
 
     onClickOk = e =>{
         this.setState({isModalVisible: false})
     }
 
- 
+    onClickInsert = e =>{
+/*         console.log(e.currentTarget);
+        console.log(e.target);
+        console.log(e.currentTarget.getAttribute('name'));
+        console.log(e.target.name); */
+        let index = e.currentTarget.getAttribute('name').split('_')
+            index = parseInt(index[1])
+            this.setState({
+                matrixA: copyArray(this.state.apiData[index]["n"],this.state.apiData[index]["matrixA"]),
+                matrixB: [...this.state.apiData[index]["matrixB"]],
+                n: this.state.apiData[index]["n"],
+                isModalVisible: false
+            })
+    }
 
     onClickExample = e =>{
         if(!this.state.hasData){
@@ -71,7 +94,13 @@ class Cramer extends React.Component{
         return(
             <div className ="CramerRule">
                 <h1 className ="Ontop">Cramer Rule</h1>
-              
+                <Modal_Example
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
                 <Row>
                     <Col span ='6'>
@@ -97,4 +126,4 @@ class Cramer extends React.Component{
     }
 
 }
-export default Cramer
+export default Cremeru

@@ -2,7 +2,9 @@ import React from 'react'
 import { Row, Col } from 'antd'
 import { Input, Button } from 'antd'
 import { InputXY } from '../input/inputmatrix'
-import { calNewtonInterpolation } from './cal_all'
+import { calNewtonInterpolation,copyArray } from './cal_all'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 
 class Newtondivide extends React.Component {
     state = {
@@ -16,9 +18,33 @@ class Newtondivide extends React.Component {
         hasData: false
     }
 
+    async getData() {
+        let tempData = null
+        await apis.getInter().then(res => { tempData = res.data })
+        this.setState({ apiData: tempData })
+        this.setState({ hasData: true })
+        /* console.log(tempData); */
+    }
+
+
     onClickOk = e => {
         this.setState({ isModalVisible: false })
     }
+
+    onClickInsert = e => {
+       
+        let index = e.currentTarget.getAttribute('name').split('_')
+        index = parseInt(index[1])
+        this.setState({
+            matrixA: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
+            Point: [...this.state.apiData[index]["point"]],
+            n: this.state.apiData[index]["n"],
+            valueX: this.state.apiData[index]["x"],
+            isModalVisible: false
+        })
+    }
+
+
 
    
     onClickExample = e => {
@@ -50,7 +76,7 @@ class Newtondivide extends React.Component {
 
     }
     onClickmatrixadd = (e) => {
-        if (this.state.n < 6) {
+        if (this.state.n < 10) {
             this.setState({ n: this.state.n += 1 })
             this.state.matrixA.push([])
         }
@@ -68,15 +94,22 @@ class Newtondivide extends React.Component {
 
         return (
             <div className="allinnewtondevide">
+                <Modal_Example
+                    visible={this.state.isModalVisible}
+                    onOk={this.onClickOk}
+                    hasData={this.state.hasData}
+                    apiData={this.state.apiData}
+                    onClick={this.onClickInsert}
+                />
                 <h1 className="Ontop">Newton's divided-differences</h1>
                 
                 <Row>
                     <Row className='rowButtonmatrix'>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixadd}> เพิ่มขนาดเมตตริกซ์ </Button>
+                            <Button type="primary" onClick={this.onClickmatrixadd}> ADD point </Button>
                         </Col>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixdel}> ลดขนาดเมตตริกซ์ </Button>
+                            <Button type="primary" onClick={this.onClickmatrixdel}> Del point </Button>
                         </Col>
 
                     </Row>
@@ -116,6 +149,7 @@ class Newtondivide extends React.Component {
                 </Row>
                 <Row className='matrix' style={{ padding: '10px 40px' }}>
                     <Button type="primary" onClick={this.onClickCalculator}>คำนวณ</Button>
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
                     
                 </Row>
                 <div>

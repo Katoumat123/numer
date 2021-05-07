@@ -4,7 +4,9 @@ import { Input, Button, Table, Modal } from 'antd'
 
 import { MatrixInputA, MatrixInputB } from '../input/inputmatrix'
 
-import {calConjugate } from './cal_all'
+import {calConjugate,copyArray } from './cal_all'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 
 class Conjugate extends React.Component{
      
@@ -19,12 +21,37 @@ class Conjugate extends React.Component{
         apiData: [],
         hasData: false
     }
+
+    async getData()
+    {
+        let tempData = null
+        await apis.getmatrix().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+        /* console.log(tempData); */
+    }
     
 
     onClickOk = e =>{
         this.setState({isModalVisible: false})
     }
 
+    onClickInsert = e =>{
+        /*         console.log(e.currentTarget);
+                console.log(e.target);
+                console.log(e.currentTarget.getAttribute('name'));
+                console.log(e.target.name); */
+                let index = e.currentTarget.getAttribute('name').split('_')
+                    index = parseInt(index[1])
+                    this.setState({
+                        matrixA: copyArray(this.state.apiData[index]["n"],this.state.apiData[index]["matrixA"]),
+                        matrixB: [...this.state.apiData[index]["matrixB"]],
+                        n: this.state.apiData[index]["n"],
+                        ERROR : this.state.apiData[index]["error"],
+                        isModalVisible: false
+                    })
+            }
+        
    
 
     onClickExample = e =>{
@@ -78,6 +105,13 @@ class Conjugate extends React.Component{
 
        return(
            <div className="allinCojugate">
+                 <Modal_Example
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <h1 className ="Ontop">Conjugate Gradient Method</h1>
                
                 <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
@@ -95,7 +129,7 @@ class Conjugate extends React.Component{
                 </Row>
                 <span><Input placeholder="0.000001" onChange={this.getERR} className="Input_3" value={this.state.ERROR}/></span>
                 <span className="Poom"><Button type="primary" onClick ={this.onPoom}>Calculate</Button></span>
-               
+                <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
                 <div>
                     {this.state.result}
                 </div>

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Button, Input } from 'antd';
 import { calSecant } from './cal_all.js'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 
 class Secant extends React.Component {
   state = {
@@ -13,6 +15,15 @@ class Secant extends React.Component {
     apiData: [],
     hasData: false
   }
+
+  async getData() {
+    let tempData = null
+    await apis.getRoot().then(res => { tempData = res.data })
+    this.setState({ apiData: tempData })
+    this.setState({ hasData: true })
+    /* console.log(tempData); */
+}
+
   onClickOk = e => {
     this.setState({ isModalVisible: false })
   }
@@ -28,6 +39,7 @@ class Secant extends React.Component {
       isModalVisible: false
     })
   }
+  
   onClickExample = e => {
     if (!this.state.hasData) {
       this.getData()
@@ -53,6 +65,13 @@ class Secant extends React.Component {
   render() {
     return (
       <div className="allinSecant" >
+        <Modal_Example
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
         <h1 className ="Ontop">Secant</h1>
                 <div>
                     <span>F(x) =</span>
@@ -66,7 +85,7 @@ class Secant extends React.Component {
                     <span className="Text_Input_2"> ERROR : </span>
                     <span><Input placeholder="0.000001"  className="Input_3" onChange ={this.getERROR} value={this.state.ERROR}/></span>
                     <span className="Poom"><Button type="primary" onClick = {this.getvalue}>Calculate</Button></span>
-                    
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
                 
                 </div>
                 <div>

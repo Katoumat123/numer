@@ -4,7 +4,9 @@ import { Input, Button, Table, Modal } from 'antd'
 
 import { MatrixInputA, MatrixInputB } from '../input/inputmatrix'
 
-import { calElimination } from './cal_all'
+import { calElimination,copyArray } from './cal_all'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 
 
 class Elimination extends React.Component{
@@ -20,6 +22,26 @@ class Elimination extends React.Component{
         hasData: false
     }
 
+    async getData()
+    {
+        let tempData = null
+        await apis.getmatrix().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+        /* console.log(tempData); */
+    }
+    onClickInsert = e =>{
+       
+                let index = e.currentTarget.getAttribute('name').split('_')
+                    index = parseInt(index[1])
+                    this.setState({
+                        matrixA: copyArray(this.state.apiData[index]["n"],this.state.apiData[index]["matrixA"]),
+                        matrixB: [...this.state.apiData[index]["matrixB"]],
+                        n: this.state.apiData[index]["n"],
+                        ERROR : this.state.apiData[index]["error"],
+                        isModalVisible: false
+                    })
+            }
 
     onClickOk = e =>{
         this.setState({isModalVisible: false})
@@ -70,7 +92,15 @@ class Elimination extends React.Component{
     render(){
         return(
             <div className="allingausseElimination">
+                 <Modal_Example
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <h1 className ="Ontop">Gauss Elimination Method</h1>
+               
               
                 <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
                 <Row>

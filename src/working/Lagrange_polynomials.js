@@ -2,7 +2,9 @@ import React from 'react'
 import { Row, Col } from 'antd'
 import { Input, Button } from 'antd'
 import { InputXY } from '../input/inputmatrix'
-import { calLagrange } from './cal_all'
+import { calLagrange,copyArray } from './cal_all'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 class Lagrange extends React.Component {
 
     state = {
@@ -16,9 +18,29 @@ class Lagrange extends React.Component {
         hasData: false
     }
    
+    async getData() {
+        let tempData = null
+        await apis.getInter().then(res => { tempData = res.data })
+        this.setState({ apiData: tempData })
+        this.setState({ hasData: true })
+        /* console.log(tempData); */
+    }
 
     onClickOk = e => {
         this.setState({ isModalVisible: false })
+    }
+
+    onClickInsert = e => {
+       
+        let index = e.currentTarget.getAttribute('name').split('_')
+        index = parseInt(index[1])
+        this.setState({
+            matrixA: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
+            Point: [...this.state.apiData[index]["point"]],
+            n: this.state.apiData[index]["n"],
+            valueX: this.state.apiData[index]["x"],
+            isModalVisible: false
+        })
     }
 
 
@@ -69,15 +91,22 @@ class Lagrange extends React.Component {
 
         return (
             <div className="newtondevide">
+                 <Modal_Example
+                    visible={this.state.isModalVisible}
+                    onOk={this.onClickOk}
+                    hasData={this.state.hasData}
+                    apiData={this.state.apiData}
+                    onClick={this.onClickInsert}
+                />
                 <h1 className="Ontop">Lagrange polynomials</h1>
                
                 <Row>
                     <Row className='rowButtonmatrix'>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixdel}> ลดขนาดเมตตริกซ์ </Button>
+                            <Button type="primary" onClick={this.onClickmatrixdel}> ADD point </Button>
                         </Col>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixadd}> เพิ่มขนาดเมตตริกซ์ </Button>
+                            <Button type="primary" onClick={this.onClickmatrixadd}> Del point </Button>
                         </Col>
 
 

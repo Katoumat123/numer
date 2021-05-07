@@ -2,7 +2,9 @@ import React from 'react'
 import { Row, Col } from 'antd'
 import { Input, Button } from 'antd'
 import { InputXY } from '../input/inputmatrix'
-import { calSpline } from './cal_all'
+import { calSpline,copyArray } from './cal_all'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 
 class Spline extends React.Component {
     state ={
@@ -17,6 +19,27 @@ class Spline extends React.Component {
   
     onClickOk = e =>{
         this.setState({isModalVisible: false})
+    }
+
+    async getData() {
+        let tempData = null
+        await apis.getInter().then(res => { tempData = res.data })
+        this.setState({ apiData: tempData })
+        this.setState({ hasData: true })
+        /* console.log(tempData); */
+    }
+
+    onClickInsert = e => {
+       
+        let index = e.currentTarget.getAttribute('name').split('_')
+        index = parseInt(index[1])
+        this.setState({
+            matrixA: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
+            Point: [...this.state.apiData[index]["point"]],
+            n: this.state.apiData[index]["n"],
+            valueX: this.state.apiData[index]["x"],
+            isModalVisible: false
+        })
     }
 
 
@@ -73,15 +96,22 @@ class Spline extends React.Component {
         return (
 
             <div className="splinein">
+                <Modal_Example
+                    visible={this.state.isModalVisible}
+                    onOk={this.onClickOk}
+                    hasData={this.state.hasData}
+                    apiData={this.state.apiData}
+                    onClick={this.onClickInsert}
+                />
                  <h1 className="Ontop">Spline interpolation</h1>
               
                 <Row>
                     <Row className='rowButtonmatrix'>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixadd}> เพิ่มขนาดเมตตริกซ์ </Button>
+                            <Button type="primary" onClick={this.onClickmatrixadd}> ADD point </Button>
                         </Col>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixdel}> ลดขนาดเมตตริกซ์ </Button>
+                            <Button type="primary" onClick={this.onClickmatrixdel}> Del point </Button>
                         </Col>
 
                     </Row>

@@ -4,7 +4,9 @@ import { Input, Button, Table, Modal } from 'antd'
 
 import { MatrixInputA, MatrixInputB } from '../input/inputmatrix'
 
-import { calLu } from './cal_all'
+import { calLu,copyArray } from './cal_all'
+import apis from '../Api/index'
+import Modal_Example from '../input/model'
 
 class LU_Decom extends React.Component{
     state = 
@@ -18,10 +20,34 @@ class LU_Decom extends React.Component{
         hasData: false
     }
     
+    async getData()
+    {
+        let tempData = null
+        await apis.getmatrix().then(res => {tempData = res.data})
+        this.setState({apiData: tempData})
+        this.setState({hasData: true})
+        /* console.log(tempData); */
+    }
 
     onClickOk = e =>{
         this.setState({isModalVisible: false})
     }
+
+    onClickInsert = e =>{
+        /*         console.log(e.currentTarget);
+                console.log(e.target);
+                console.log(e.currentTarget.getAttribute('name'));
+                console.log(e.target.name); */
+                let index = e.currentTarget.getAttribute('name').split('_')
+                    index = parseInt(index[1])
+                    this.setState({
+                         
+                        matrixA: copyArray(this.state.apiData[index]["n"],this.state.apiData[index]["matrixA"]),
+                        matrixB: [...this.state.apiData[index]["matrixB"]],
+                        n: this.state.apiData[index]["n"],
+                        isModalVisible: false
+                    })
+            }
 
   
 
@@ -63,12 +89,20 @@ class LU_Decom extends React.Component{
 
         oncal = e =>{
             this.setState({
-                result : calLu(this.state.n,this.state.matrixA,this.state.matrixB)
+                result : calLu(this.state.n,this.state.matrixA,this.state.matrixB),
+                topre : <div className = "ontopresult"> คำตอบของการคำนวนคือ</div>
             })
         }
     render(){
         return(
             <div className="allinLU">
+                 <Modal_Example
+                    visible = {this.state.isModalVisible}
+                    onOk = {this.onClickOk}
+                    hasData = {this.state.hasData}
+                    apiData = {this.state.apiData}
+                    onClick = {this.onClickInsert}
+                />
                 <h1 className ="Ontop">LU-Decompocition Method</h1>
                
                 <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
@@ -83,7 +117,7 @@ class LU_Decom extends React.Component{
                         <MatrixInputB n={this.state.n} onChange={this.OnChangeMatrixB} value={this.state.matrixB}/>
                     </Col>
                     <span className="Poom"><Button type="primary" onClick = {this.oncal}>Calculate</Button></span>
-                    
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
                 </Row>
                 <div>
                     {this.state.result}

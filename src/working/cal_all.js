@@ -8,7 +8,7 @@ function checkEquation (equation){
 
     return equation
 }
-function copyArray(n,matrix1){
+export function copyArray(n,matrix1){
    let arr = []
     for(let i = 0;i < n ; i++){
         arr.push([])
@@ -70,69 +70,57 @@ export function calBisection  (initialEquation ,initialXL,initialXR,initialError
     return(arr);
 }
 //Bisection
-export function calFalse(initialEquation ,initialXL,initialXR,initialError){
+export function fasepositioncal( init_xl, init_xr, init_error,init_fx){
 
-    let equation = checkEquation(initialEquation)
+    init_fx = checkEquation(init_fx);
+    let data=[];
+    let fx = math.parse(init_fx).compile()
+    let xl = math.bignumber(init_xl)
+    let xr = math.bignumber(init_xr)
+    let er = math.bignumber(init_error)
+    let fxl = fx.evaluate({x:xl});
+    let fxr = fx.evaluate({x:xr});
+    let x = math.divide(math.subtract(math.multiply(xl,fxr),math.multiply(xr,fxl)),math.subtract(fxr,fxl));
+    let num =math.multiply(fx.evaluate({x:x}),fxr);
+    let tmp_er = 9999999;
+    let new_x = 0;
+    let i =1;
 
-     equation = math.parse(equation).compile()
+    if(num>0){
+        xr = x;
+    }
+    else if(num<0){
+        xl = x;
+    }
 
-     let xl = math.bignumber(initialXL)
-     let xr = math.bignumber(initialXR)
-     let error = math.bignumber(initialError)
-     
-     let arr = []
-
-     let i = 1;
-     
-     
-     let oldX1 = 0;
-
-     let checkError = 9999
-
-     while(checkError > error){
-
-        // console.log('first  '+i)
-        let fXL  = equation.evaluate({x : xl})
-
-        let fXR  = equation.evaluate({x : xr})
-        
-        let x1 = math.divide(math.subtract(math.multiply(xl , fXR) , math.multiply(xr , fXL)) , math.subtract(fXR , fXL))
-
-        
-        // console.log('middle   ' + i)
-        let fx1 = equation.evaluate({x : x1})
-
-        let check = math.multiply(fx1,fXR)
-       
-        if( check >= 0){
-            xr = x1
+    while(tmp_er > er){
+        fxr = fx.evaluate({x:xr});
+        fxl = fx.evaluate({x:xl});
+        new_x = math.divide(math.subtract(math.multiply(xl,fxr),math.multiply(xr,fxl)),math.subtract(fxr,fxl));
+        num = math.multiply(fx.evaluate({x:x}),fxr);
+        if(num>0){
+            xr = new_x;
         }
-        else{
-            xl =x1
+        else if(num<0){
+            xl = new_x;
         }
+        tmp_er = math.abs(math.divide(math.subtract(new_x,x),new_x))
+        x = new_x;
+        data.push(<div>{i}: z is {x.toFixed(15).toString()}</div>)
+        i++;
+    }
 
-        checkError =  math.abs((x1 - oldX1)/x1);
 
-        oldX1 = x1
-
-        arr.push({key : i , iteration : i.toString() ,x1 : x1.toFixed(15).toString() ,error : checkError.toFixed(15).toString()})
-        console.log(i.toString())
-        console.log(x1.toString())
-        console.log(checkError.toString())
-        i++
-        
-     }
-     return arr
+    return data;
 }
 
 export function calOnepoint(initialEquation ,initialX,initialError){
 
-    let equation = checkEquation(initialEquation)
-
-     equation = math.parse(equation).compile()
+    let equation =checkEquation(initialEquation)
+    equation = math.parse(equation).compile()
      
      let X = math.bignumber(initialX)
-     console.log('aaa')
+
      let error = math.bignumber(initialError)
      
      let arr = []
@@ -142,27 +130,25 @@ export function calOnepoint(initialEquation ,initialX,initialError){
      
      let oldX = 0;
 
-     let checkError = 9999
-     let oldcheckError = 9999;
+     let checkError = 1
+     let oldcheckError = 2;
+     arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
      while(checkError > error){
 
         
          X  = equation.evaluate({x : X})
 
          checkError =  math.abs((X - oldX)/X);
-          if(checkError > oldcheckError && i > 3){
-           arr.push({key : i , iteration : "ลู่ออก" ,x : "ลู่ออก" ,error : "ลู่ออก"})
-             break;
-         }
+         if(i>3&&(checkError > oldcheckError)){
+            arr.push(<div>ลู่ออก</div>)
+            break;
+        }
           oldcheckError = checkError;
         
          oldX = X
          
-       
-        arr.push({key : i , iteration : i.toString() ,x : X.toFixed(15).toString() ,error : checkError.toFixed(15).toString()})
-        console.log(i.toString())
-        console.log(X.toString())
-        console.log(checkError.toString())
+        
+        arr.push(<div>i :{i} iterration :{i.toString()} x:  {X.toFixed(15).toString()} error : {checkError.toFixed(15).toString()}</div>)
         i++
         
      }
@@ -179,7 +165,7 @@ export function calNewton(initialEquation, initialX, initialError) {
 
     let fXprime = math.derivative(equation,'x').compile()
     
-    // console.log('aaa')
+   
     let error = math.bignumber(initialError)
 
     
@@ -193,6 +179,10 @@ export function calNewton(initialEquation, initialX, initialError) {
 
     let checkError = 9999
     let oldcheckError = 9999;
+   
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+
+
     while (checkError > error) {
 
         let fXdiff = fXprime.evaluate({x : X})
@@ -202,19 +192,16 @@ export function calNewton(initialEquation, initialX, initialError) {
 
 
         checkError = math.abs((X - oldX) / X);
-        if (checkError > oldcheckError) {
-            arr.push({ key: i, iteration: "ลู่ออก", x: "ลู่ออก", error: "ลู่ออก" })
+        if ((checkError > oldcheckError)&&i>3) {
+            arr.push(<div>ลู่ออก</div>)
             break;
         }
         oldcheckError = checkError;
 
         oldX = X
 
-
-        arr.push({key : i, iteration: i.toString(), x: X.toFixed(15).toString(), error: checkError.toFixed(15).toString() })
-        console.log(i.toString())
-        console.log(X.toString())
-        console.log(checkError.toString())
+        arr.push(<div>iteration: {i.toString()} x: {X.toFixed(15).toString()} error: {checkError.toFixed(15).toString()} </div>)
+        
         i++
 
     }
@@ -222,7 +209,7 @@ export function calNewton(initialEquation, initialX, initialError) {
 }
 export function calSecant(initialEquation, initialX0,initialX1, initialError) {
 
-    let equation = checkEquation(initialEquation)
+     let equation = checkEquation(initialEquation)
 
     equation = math.parse(equation).compile()
     let x0 = math.bignumber(initialX0)
@@ -232,7 +219,7 @@ export function calSecant(initialEquation, initialX0,initialX1, initialError) {
    let fx0 = equation.evaluate({x:x0})
    let fx1 = equation.evaluate({x:x1})
     
-    // console.log('aaa')
+   
     let error = math.bignumber(initialError)
 
     
@@ -246,6 +233,8 @@ export function calSecant(initialEquation, initialX0,initialX1, initialError) {
 
     let checkError = 9999
     let oldcheckError = 9999;
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+
     while (checkError > error) {
 
     let    x = math.subtract(x1 , math.divide(math.multiply(fx1,math.subtract(x0 , x1) ), math.subtract(fx0 , fx1)));
@@ -260,52 +249,53 @@ export function calSecant(initialEquation, initialX0,initialX1, initialError) {
 
        
         if (checkError > oldcheckError) {
-            arr.push({ key: i, iteration: "ลู่ออก", x: "ลู่ออก", error: "ลู่ออก" })
+            arr.push(<div>ลู่ออก</div>)
             break;
         }
         oldcheckError = checkError;
 
-        oldX = x
+        
 
-
-        arr.push({key : i, iteration: i.toString(), x: x.toFixed(15).toString(), error: checkError.toFixed(15).toString() })
-      
+        arr.push(<div>iteration: {i.toString()} x: {x.toFixed(15).toString()} error: {checkError.toFixed(15).toString()}</div>)
+       
         i++
 
     }
+    
     return arr
 }
 
 export function calCramer(n, initialMatrix1, initialMatrix2) {
-
-    let matrix1=math.bignumber(initialMatrix1)
-    let matrix2=math.bignumber(initialMatrix2)
+    let matrix1 = math.bignumber(initialMatrix1)
+    let matrix2 = math.bignumber(initialMatrix2)
     let det_matrixA = math.det(matrix1)
-    
-    let temp_matrix1 = copyArray(n,matrix1)
+
+    let temp_matrix1 = copyArray(n, matrix1)
 
     let arr = []
-    arr.push(<div className = "ontopresult"> คำตอบของการคำนวนคือ</div>)
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
     let X = [];
-    
-    
 
 
-        for (let i = 0; i < n; i++) { 
 
-            for (let j = 0; j < n; j++) { 
-                temp_matrix1[j][i] = matrix2[j]  
-            }
-            X[i] = math.divide(math.det(temp_matrix1) , det_matrixA).toFixed(15).toString()
-            
-            //arr.push({key : i , x : 'X'+(i+1) ,valuex : X[i]})
-            arr.push(<div className ="result"> X{i+1} = {X[i]}</div>)
 
-            temp_matrix1 = copyArray(n,matrix1);
+    for (let i = 0; i < n; i++) {
+
+        for (let j = 0; j < n; j++) {
+            temp_matrix1[j][i] = matrix2[j]
         }
-        
+        X[i] = math.divide(math.det(temp_matrix1), det_matrixA).toFixed(15).toString()
+
+        //arr.push({key : i , x : 'X'+(i+1) ,valuex : X[i]})
+        arr.push(<div className="result"> X{i + 1} = {X[i]}</div>)
+
+        temp_matrix1 = copyArray(n, matrix1);
+    }
+
     return arr
 }
+
+
 
 
 
@@ -318,7 +308,8 @@ export function calElimination(n, initialMatrix1, initialMatrix2) {
     
     let arr = []
     let X = []
-    
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+
     for(let i = 0 ; i < n ; i++){
         matrix1[i].push(matrix2[i]) 
         X.push(1)
@@ -365,7 +356,10 @@ export function calJordan(n, initialMatrix1, initialMatrix2) {
     
     
     let arr = []
+    
     let X = []
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+    
     
     for(let i = 0 ; i < n ; i++){
         matrix1[i].push(matrix2[i]) 
@@ -427,6 +421,7 @@ export function calLu(n, initialMatrix1, initialMatrix2) {
     let L = []
     let Y = []
     let X = []
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
     
     for (let i = 0; i < n; i++) {
             U.push([])
@@ -534,6 +529,9 @@ export function calJacobi(n, initialMatrix1, initialMatrix2,initialError) {
     let ansX = []
     
     let arr_Error = []
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+
+
     for(let i = 0 ; i < n ;i++){
         resultX.push(0)
         
@@ -765,7 +763,8 @@ export function calNewtonInterpolation( initialMatrix1, initialPoint,initialX) {
     let arr = []
     let ans = []
 
-   
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+
    for(let i = 0 ; i < P.length ; i++){
            arr.push(A[parseInt(P[i])-1])
    }
@@ -885,7 +884,7 @@ export function calLagrange(initialMatrix1,initialPoint,initialX){
    let ys = []
 
 
-
+   arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
 	for(let i = 0 ; i < arr.length ; i++){
 
 		for(let j = 0 ; j < arr.length ; j++){
@@ -958,6 +957,7 @@ export function calPolynoial(initialMatrix1,initialX,n){
     let ans = [] 
     
     let fx = a0+(a1*X)+(a2*(X*X))
+    ans.push(<div className = "ontopresult"> คำตอบของการคำนวนคือ</div>)
     //ans.push({key :  1 ,fx : 'f('+X+')' , valuex : fx.toFixed(5) })
     //ans.push(<div>f({X}) = {fx.toFixed(5)}</div>)
     ans.push(<div>{'f( '+X+' ) = '} {fx.toFixed(5)}</div>)
@@ -972,6 +972,7 @@ export function calMultiple(initialN,initialMatrix1,initialX1,initialX2,initialX
     let X2 = initialX2
     let X3 = initialX3
     let A = initialMatrix1
+    
     for(let i = 0 ; i < n ; i++){
         for(let j = 0 ; j < 4 ; j ++){
             A[i][j] = parseInt(A[i][j])
@@ -1084,6 +1085,7 @@ export function calMultiple(initialN,initialMatrix1,initialX1,initialX2,initialX
     
     let arr = []
     let X = []
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
     
     for(let i = 0 ; i < 4 ; i++){
        
