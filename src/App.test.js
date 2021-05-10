@@ -1,8 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('Home', () => {
+var expect = require('expect.js');
+
+function add (a, b) { return a + b; };
+
+test('renders learn react link', () => {
   render(<App />);
-  const linkElement = screen.getByText('Home');
-  expect(linkElement).toBeInTheDocument();
 });
+
+it('should do math', function () {
+  expect(console.log(add(1, 3)))
+  expect(add(1, 3)).to.equal(4);
+});
+
+/* it('fail', function () {
+  expect(add(1, 3)).to.equal(10);
+}); */
