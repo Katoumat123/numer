@@ -40,7 +40,7 @@ class Lay extends React.Component {
                         <Header className="header">
                             <div className="logo" />
                             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} >
-                                <Menu.Item key="1" >Home</Menu.Item>
+                                <Menu.Item key="1" >Home{<Link to = "/Swaggeradd"></Link>}</Menu.Item>
                                 <SubMenu className="Menu2" key="2" title="Root of equations">
                                     <Menu.Item key="sub1">Bisection Method{<Link to = "/Bisection"></Link>}</Menu.Item>
                                     <Menu.Item key="sub2">Falseposition Method{<Link to = "/Falseposition"></Link>}</Menu.Item>

@@ -86,7 +86,7 @@ class Elimination extends React.Component{
         onCal = e =>{
             this.setState({
                 result : calElimination(this.state.n,this.state.matrixA,this.state.matrixB),
-                topre : <div className = "ontopresult"> คำตอบของการคำนวนคือ</div>
+                
             })
         }
     render(){
@@ -116,6 +116,7 @@ class Elimination extends React.Component{
                     <span className="Poom"><Button type="primary" onClick = {this.onCal}>Calculate</Button></span>
                     <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
                 </Row>
+                    
                 <div>
                     {this.state.topre}
                     {this.state.result}

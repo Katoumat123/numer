@@ -763,7 +763,8 @@ export function calNewtonInterpolation( initialMatrix1, initialPoint,initialX) {
     let arr = []
     let ans = []
 
-    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+
+    ans.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
 
    for(let i = 0 ; i < P.length ; i++){
            arr.push(A[parseInt(P[i])-1])
@@ -776,6 +777,8 @@ export function calNewtonInterpolation( initialMatrix1, initialPoint,initialX) {
 
     //ans.push({key :  1 ,fx : 'f('+X+')' , valuex : findX(X) })
     ans.push(<div>f({X})={findX(X)}</div>)
+    //ans.push(<div className="result">f({X})={findX(X)}</div>)
+    console.log(ans)
    return ans
 }
 
