@@ -20,17 +20,26 @@ class Modal_Example extends React.Component{
                     
                     {this.props.hasData ?
                          
-                        this.props.apiData.map((x,i) => (
+                        
+                        <Row>
+                            <Col span={12}>ข้อที่ {this.props.Ex+1} {this.props.apiData[this.props.Ex]['equation']}</Col>
+                            <Col span={12}>
+                                    <Button type='primary' name={'insert_' + this.props.Ex} onClick={this.props.onClick}>Insert</Button>
+                                </Col>
+                            
+                        </Row>
+
+                        /* this.props.apiData.map((x,i) => (
                             <Row>
                                 <Col span={12}>ข้อที่ {i+1} {x['equation']}</Col>
-                            
+
                                 <Col span={12}>
                                     
                                     <Button type='primary' name={'insert_' + i} onClick={this.props.onClick}>Insert</Button>
                                 </Col>
                                 <hr/>
                             </Row>
-                        ))
+                        )) */
                         : <span style={{fontSize: "25px" , textAlign: "center"}}>กำลังโหลดข้อมูล</span>
                     }
                 </Modal>

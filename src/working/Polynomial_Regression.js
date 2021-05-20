@@ -4,7 +4,7 @@ import { Input, Button } from 'antd'
 import { InputXY } from '../input/inputmatrix'
 import { calPolynoial,copyArray } from './cal_all'
 import apis from '../Api/index'
-import Modal_Example from '../input/model'
+import Modal_Example from '../input/modelRegression'
 
 class Polynomial extends React.Component {
     state = {
@@ -15,7 +15,8 @@ class Polynomial extends React.Component {
         data: "",
         isModalVisible: false,
         apiData: [],
-        hasData: false
+        hasData: false,
+        Ex: 1
     }
   
     async getData() {
@@ -92,6 +93,7 @@ class Polynomial extends React.Component {
                     hasData={this.state.hasData}
                     apiData={this.state.apiData}
                     onClick={this.onClickInsert}
+                    Ex = {this.state.Ex}
                 />
                 <h1 className="Ontop">polynomial Regression</h1>
                 

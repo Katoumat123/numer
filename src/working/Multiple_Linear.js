@@ -4,7 +4,7 @@ import { Input, Button } from 'antd'
 import { InputMultiple } from '../input/inputmatrix'
 import { calMultiple,copyArray } from './cal_all'
 import apis from '../Api/index'
-import Modal_Example from '../input/model'
+import Modal_Example from '../input/modelRegression'
 
 class Multiple extends React.Component {
     state = {
@@ -15,7 +15,8 @@ class Multiple extends React.Component {
         matrixA: [[], []],
         isModalVisible: false,
         apiData: [],
-        hasData: false
+        hasData: false,
+        Ex: 2
 
     }
    
@@ -104,6 +105,7 @@ class Multiple extends React.Component {
                     hasData = {this.state.hasData}
                     apiData = {this.state.apiData}
                     onClick = {this.onClickInsert}
+                    Ex = {this.state.Ex}
                 />
                 <h1 className="Ontop">Multi-linear Regression</h1>
                

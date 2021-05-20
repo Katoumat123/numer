@@ -4,7 +4,7 @@ import { Input, Button } from 'antd'
 import { InputXY } from '../input/inputmatrix'
 import { calLinear,copyArray  } from './cal_all'
 import apis from '../Api/index'
-import Modal_Example from '../input/model'
+import Modal_Example from '../input/modelRegression'
 
 class LinearRe extends React.Component{
     state = {
@@ -14,7 +14,8 @@ class LinearRe extends React.Component{
         data : "",
         isModalVisible: false,
         apiData: [],
-        hasData: false
+        hasData: false,
+        Ex: 0
     }
 
     async getData() {
@@ -90,6 +91,8 @@ class LinearRe extends React.Component{
                       hasData={this.state.hasData}
                       apiData={this.state.apiData}
                       onClick={this.onClickInsert}
+                      Ex = {this.state.Ex}
+
                 />
               
                 <Row>
