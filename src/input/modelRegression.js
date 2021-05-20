@@ -22,7 +22,7 @@ class Modal_Example extends React.Component{
                          
                         
                         <Row>
-                            <Col span={12}>ข้อที่ {this.props.Ex+1} {this.props.apiData[this.props.Ex]['equation']}</Col>
+                            <Col span={12}>ข้อที่ {this.props.Ex+1} </Col>
                             <Col span={12}>
                                     <Button type='primary' name={'insert_' + this.props.Ex} onClick={this.props.onClick}>Insert</Button>
                                 </Col>
