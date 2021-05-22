@@ -12,33 +12,29 @@ class Spline extends React.Component {
         n: 2,
         data: "",
         matrixA : [[],[]],
-        isModalVisible: false,
+       
         apiData: [],
         hasData: false
     }
   
-    onClickOk = e =>{
-        this.setState({isModalVisible: false})
-    }
+   
 
     async getData() {
         let tempData = null
         await apis.getInter().then(res => { tempData = res.data })
         this.setState({ apiData: tempData })
         this.setState({ hasData: true })
-        /* console.log(tempData); */
+        this.onClickInsert()
+        
     }
 
-    onClickInsert = e => {
-       
-        let index = e.currentTarget.getAttribute('name').split('_')
-        index = parseInt(index[1])
+    onClickInsert(){
         this.setState({
-            matrixA: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
-            Point: [...this.state.apiData[index]["point"]],
-            n: this.state.apiData[index]["n"],
-            valueX: this.state.apiData[index]["x"],
-            isModalVisible: false
+            matrixA: copyArray(this.state.apiData[2]["n"], this.state.apiData[2]["matrixA"]),
+            Point: [...this.state.apiData[2]["point"]],
+            n: this.state.apiData[2]["n"],
+            valueX: this.state.apiData[2]["x"],
+           
         })
     }
 
@@ -95,14 +91,7 @@ class Spline extends React.Component {
 
         return (
 
-            <div className="splinein">
-                <Modal_Example
-                    visible={this.state.isModalVisible}
-                    onOk={this.onClickOk}
-                    hasData={this.state.hasData}
-                    apiData={this.state.apiData}
-                    onClick={this.onClickInsert}
-                />
+            <div className="TopRow">
                  <h1 className="Ontop">Spline interpolation</h1>
               
                 <Row>
@@ -127,7 +116,7 @@ class Spline extends React.Component {
                 </Row>
                 <Row>
                     <div style={{ padding: '0px 40px' }}>
-                        กรอก ค่า X ที่ต้องการหา
+                        กรอก ค่า X 
                     </div>
                 </Row>
                 <Row style={{ width: '100px', padding: '10px 40px' }}>
@@ -140,7 +129,7 @@ class Spline extends React.Component {
                 
                 <Row className='matrix' style={{ padding: '10px 40px' }}>
                     <Button type="primary" onClick={this.onClickCalculator}>คำนวณ</Button>
-                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 </Row>
                 <div>
                     {this.state.data}

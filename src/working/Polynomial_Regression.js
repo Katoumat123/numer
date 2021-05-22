@@ -13,7 +13,7 @@ class Polynomial extends React.Component {
         matrixA: [[], []],
         Point: [],
         data: "",
-        isModalVisible: false,
+       
         apiData: [],
         hasData: false,
         Ex: 1
@@ -24,25 +24,17 @@ class Polynomial extends React.Component {
         await apis.getRegession().then(res => { tempData = res.data })
         this.setState({ apiData: tempData })
         this.setState({ hasData: true })
-        /* console.log(tempData); */
+        this.onClickInsert()
     }
 
-    onClickOk = e =>{
-        this.setState({isModalVisible: false})
-    }
+   
 
-    onClickInsert = e => {
-        /*         console.log(e.currentTarget);
-                console.log(e.target);
-                console.log(e.currentTarget.getAttribute('name'));
-                console.log(e.target.name); */
-        let index = e.currentTarget.getAttribute('name').split('_')
-        index = parseInt(index[1])
+    onClickInsert(){
         this.setState({
-            matrixA: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
-            n: this.state.apiData[index]["n"],
-            valueX: this.state.apiData[index]["x"],
-            isModalVisible: false
+            matrixA: copyArray(this.state.apiData[1]["n"], this.state.apiData[1]["matrixA"]),
+            n: this.state.apiData[1]["n"],
+            valueX: this.state.apiData[1]["x"],
+            
         })
     }
  
@@ -50,6 +42,9 @@ class Polynomial extends React.Component {
     onClickExample = e =>{
         if(!this.state.hasData){
             this.getData()
+        }
+        else{
+            this.onClickInsert()
         }
         this.setState({isModalVisible: true})
     }
@@ -86,15 +81,7 @@ class Polynomial extends React.Component {
 
         return (
 
-            <div className="allinpolynomial">
-                  <Modal_Example
-                    visible={this.state.isModalVisible}
-                    onOk={this.onClickOk}
-                    hasData={this.state.hasData}
-                    apiData={this.state.apiData}
-                    onClick={this.onClickInsert}
-                    Ex = {this.state.Ex}
-                />
+            <div className="TopRow">
                 <h1 className="Ontop">polynomial Regression</h1>
                 
                 <Row>
@@ -132,7 +119,7 @@ class Polynomial extends React.Component {
 
                 <Row className='matrix' style={{ padding: '10px 40px' }}>
                     <Button type="primary" onClick={this.onClickCalculator}>คำนวณ</Button>
-                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 </Row>
 
 

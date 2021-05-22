@@ -4,7 +4,7 @@ import { Input, Button } from 'antd'
 import { InputMultiple } from '../input/inputmatrix'
 import { calMultiple,copyArray } from './cal_all'
 import apis from '../Api/index'
-import Modal_Example from '../input/modelRegression'
+
 
 class Multiple extends React.Component {
     state = {
@@ -13,7 +13,6 @@ class Multiple extends React.Component {
         valueX2: "",
         valueX3: "",
         matrixA: [[], []],
-        isModalVisible: false,
         apiData: [],
         hasData: false,
         Ex: 2
@@ -26,26 +25,18 @@ class Multiple extends React.Component {
         await apis.getRegession().then(res => {tempData = res.data})
         this.setState({apiData: tempData})
         this.setState({hasData: true})
-        /* console.log(tempData); */
+        this.onClickInsert()
     }
 
-    onClickOk = e =>{
-        this.setState({isModalVisible: false})
-    }
 
-    onClickInsert = e =>{
-        /*         console.log(e.currentTarget);
-                console.log(e.target);
-                console.log(e.currentTarget.getAttribute('name'));
-                console.log(e.target.name); */
-                let index = e.currentTarget.getAttribute('name').split('_')
-                    index = parseInt(index[1])
+
+    onClickInsert(){
                     this.setState({
-                        matrixA: copyArray(this.state.apiData[index]["n"],this.state.apiData[index]["matrixA"]),
-                        n: this.state.apiData[index]["n"],
-                        valueX1: this.state.apiData[index]["x1"],
-                        valueX2: this.state.apiData[index]["x2"],
-                        valueX3: this.state.apiData[index]["x3"],
+                        matrixA: copyArray(this.state.apiData[2]["n"],this.state.apiData[2]["matrixA"]),
+                        n: this.state.apiData[2]["n"],
+                        valueX1: this.state.apiData[2]["x1"],
+                        valueX2: this.state.apiData[2]["x2"],
+                        valueX3: this.state.apiData[2]["x3"],
                         isModalVisible: false
                     })
             }
@@ -55,6 +46,9 @@ class Multiple extends React.Component {
     onClickExample = e =>{
         if(!this.state.hasData){
             this.getData()
+        }
+        else{
+            this.onClickInsert()
         }
         this.setState({isModalVisible: true})
     }
@@ -98,15 +92,7 @@ class Multiple extends React.Component {
 
         return (
 
-            <div className="multiple">
-                <Modal_Example
-                    visible = {this.state.isModalVisible}
-                    onOk = {this.onClickOk}
-                    hasData = {this.state.hasData}
-                    apiData = {this.state.apiData}
-                    onClick = {this.onClickInsert}
-                    Ex = {this.state.Ex}
-                />
+            <div className="TopRow">
                 <h1 className="Ontop">Multi-linear Regression</h1>
                
                 <Col span={12} style={{ padding: '10px 0 0' }}>
@@ -162,13 +148,12 @@ class Multiple extends React.Component {
                             <Input className="matrixip" style={{ width: '150px' }} placeholder='Example = 40000' onChange={this.onChangeX3} value={this.state.valueX3}/>
                         </div>
                     </Row>
-                    <Row className='inputdata'>
-                        <Col span={24} >
-                            <Button style={{ marginTop: '5px' }} type="primary" onClick={this.onClickCalculator}>คำนวณ</Button>
-                            <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
-                        </Col>
-                    </Row>
+                   
                 </Col>
+                <Row className='inputdata'>
+                            <span className="Poom"> <Button  type="primary" onClick={this.onClickCalculator}>คำนวณ</Button></span>
+                            <span className="Poom"> <Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
+                    </Row>
                 <div>
                     {this.state.data}
                 </div>

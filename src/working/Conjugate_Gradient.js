@@ -17,7 +17,6 @@ class Conjugate extends React.Component{
         matrixB : [],
         result : "",
         ERROR : "",
-        isModalVisible: false,
         apiData: [],
         hasData: false
     }
@@ -28,27 +27,20 @@ class Conjugate extends React.Component{
         await apis.getmatrix().then(res => {tempData = res.data})
         this.setState({apiData: tempData})
         this.setState({hasData: true})
-        /* console.log(tempData); */
+        this.onClickInsert()
+       
     }
     
 
-    onClickOk = e =>{
-        this.setState({isModalVisible: false})
-    }
+   
 
-    onClickInsert = e =>{
-        /*         console.log(e.currentTarget);
-                console.log(e.target);
-                console.log(e.currentTarget.getAttribute('name'));
-                console.log(e.target.name); */
-                let index = e.currentTarget.getAttribute('name').split('_')
-                    index = parseInt(index[1])
+    onClickInsert(){
                     this.setState({
-                        matrixA: copyArray(this.state.apiData[index]["n"],this.state.apiData[index]["matrixA"]),
-                        matrixB: [...this.state.apiData[index]["matrixB"]],
-                        n: this.state.apiData[index]["n"],
-                        ERROR : this.state.apiData[index]["error"],
-                        isModalVisible: false
+                        matrixA: copyArray(this.state.apiData[1]["n"],this.state.apiData[1]["matrixA"]),
+                        matrixB: [...this.state.apiData[1]["matrixB"]],
+                        n: this.state.apiData[1]["n"],
+                        ERROR : this.state.apiData[1]["error"],
+                        
                     })
             }
         
@@ -57,6 +49,9 @@ class Conjugate extends React.Component{
     onClickExample = e =>{
         if(!this.state.hasData){
             this.getData()
+        }
+        else{
+            this.onClickInsert()
         }
         this.setState({isModalVisible: true})
     }
@@ -98,20 +93,15 @@ class Conjugate extends React.Component{
         
         onPoom = e =>{
             this.setState({
-                result : calConjugate(this.state.n,this.state.matrixA,this.state.matrixB,this.state.ERROR)
+                result : calConjugate(this.state.n,this.state.matrixA,this.state.matrixB,this.state.ERROR),
+                topre : <div className = "ontopresult"> คำตอบของการคำนวนคือ</div>
             })
         }
     render(){
 
        return(
-           <div className="allinCojugate">
-                 <Modal_Example
-                    visible = {this.state.isModalVisible}
-                    onOk = {this.onClickOk}
-                    hasData = {this.state.hasData}
-                    apiData = {this.state.apiData}
-                    onClick = {this.onClickInsert}
-                />
+           <div className="TopRow">
+               
                 <h1 className ="Ontop">Conjugate Gradient Method</h1>
                
                 <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
@@ -127,9 +117,9 @@ class Conjugate extends React.Component{
                     </Col>
 
                 </Row>
-                <span><Input placeholder="0.000001" onChange={this.getERR} className="Input_3" value={this.state.ERROR}/></span>
-                <span className="Poom"><Button type="primary" onClick ={this.onPoom}>Calculate</Button></span>
-                <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                <span><Input placeholder="0.000001" onChange={this.getERR} className="Input_4" value={this.state.ERROR}/></span>
+                <span className="Poom"><Button type="primary" onClick ={this.onPoom}>คำนวณ</Button></span>
+                <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 <div>
                     {this.state.result}
                 </div>

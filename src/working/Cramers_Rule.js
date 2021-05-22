@@ -27,31 +27,27 @@ class Cremeru extends React.Component{
         await apis.getmatrix().then(res => {tempData = res.data})
         this.setState({apiData: tempData})
         this.setState({hasData: true})
-        /* console.log(tempData); */
+        this.onClickInsert()
+    
     }
 
-    onClickOk = e =>{
-        this.setState({isModalVisible: false})
-    }
+   
 
-    onClickInsert = e =>{
-/*         console.log(e.currentTarget);
-        console.log(e.target);
-        console.log(e.currentTarget.getAttribute('name'));
-        console.log(e.target.name); */
-        let index = e.currentTarget.getAttribute('name').split('_')
-            index = parseInt(index[1])
+    onClickInsert(){
             this.setState({
-                matrixA: copyArray(this.state.apiData[index]["n"],this.state.apiData[index]["matrixA"]),
-                matrixB: [...this.state.apiData[index]["matrixB"]],
-                n: this.state.apiData[index]["n"],
-                isModalVisible: false
+                matrixA: copyArray(this.state.apiData[0]["n"],this.state.apiData[0]["matrixA"]),
+                matrixB: [...this.state.apiData[0]["matrixB"]],
+                n: this.state.apiData[0]["n"],
+                
             })
     }
 
     onClickExample = e =>{
         if(!this.state.hasData){
             this.getData()
+        }
+        else{
+            this.onClickInsert()
         }
         this.setState({isModalVisible: true})
     }
@@ -92,15 +88,9 @@ class Cremeru extends React.Component{
         }
     render(){
         return(
-            <div className ="CramerRule">
+            <div className ="TopRow">
                 <h1 className ="Ontop">Cramer Rule</h1>
-                <Modal_Example
-                    visible = {this.state.isModalVisible}
-                    onOk = {this.onClickOk}
-                    hasData = {this.state.hasData}
-                    apiData = {this.state.apiData}
-                    onClick = {this.onClickInsert}
-                />
+               
                 <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
                 <Row>
                     <Col span ='6'>
@@ -112,9 +102,10 @@ class Cremeru extends React.Component{
                     <Col >
                         <MatrixInputB n={this.state.n} onChange={this.OnChangeMatrixB} value={this.state.matrixB}/>
                     </Col>
-                    <span className="Poom"><Button type="primary" onClick ={this.onPoom}>Calculate</Button></span>
-                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                    
                 </Row>
+                <span className="Poom"><Button type="primary" onClick ={this.onPoom}>คำนวณ</Button></span>
+                <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 <div>
                     {this.state.result}
                 </div>

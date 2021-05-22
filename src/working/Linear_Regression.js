@@ -12,7 +12,6 @@ class LinearRe extends React.Component{
         valueX : "",
         matrixA : [[],[]],
         data : "",
-        isModalVisible: false,
         apiData: [],
         hasData: false,
         Ex: 0
@@ -23,30 +22,26 @@ class LinearRe extends React.Component{
         await apis.getRegession().then(res => { tempData = res.data })
         this.setState({ apiData: tempData })
         this.setState({ hasData: true })
-        /* console.log(tempData); */
+        this.onClickInsert()
     }
     
-    onClickOk = e =>{
-        this.setState({isModalVisible: false})
-    }
-    onClickInsert = e => {
-        /*         console.log(e.currentTarget);
-                console.log(e.target);
-                console.log(e.currentTarget.getAttribute('name'));
-                console.log(e.target.name); */
-        let index = e.currentTarget.getAttribute('name').split('_')
-        index = parseInt(index[1])
+  
+    onClickInsert() {
+     
         this.setState({
-            matrixA: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
-            n: this.state.apiData[index]["n"],
-            valueX: this.state.apiData[index]["x"],
-            isModalVisible: false
+            matrixA: copyArray(this.state.apiData[0]["n"], this.state.apiData[0]["matrixA"]),
+            n: this.state.apiData[0]["n"],
+            valueX: this.state.apiData[0]["x"],
+            
         })
     }
  
     onClickExample = e =>{
         if(!this.state.hasData){
             this.getData()
+        }
+        else{
+            this.onClickInsert()
         }
         this.setState({isModalVisible: true})
     }
@@ -72,7 +67,7 @@ class LinearRe extends React.Component{
     }
     onClickmatrixdel = (e)=>{
         if(this.state.n > 2){
-            this.setState({n : this.state.n-=1})
+            this.setState({n : this.state.n -= 1})
             this.state.matrixA.pop([])
         }
     }
@@ -83,18 +78,8 @@ class LinearRe extends React.Component{
     render(){
 
         return(
-            <div className= "allinLineaRe">
+            <div className= "TopRow">
                 <h1 className="Ontop">Linear Regression</h1>
-                <Modal_Example
-                      visible={this.state.isModalVisible}
-                      onOk={this.onClickOk}
-                      hasData={this.state.hasData}
-                      apiData={this.state.apiData}
-                      onClick={this.onClickInsert}
-                      Ex = {this.state.Ex}
-
-                />
-              
                 <Row>
                     <Row className='rowButtonmatrix'>
                         <Col className='buttonmatrix'>
@@ -130,7 +115,7 @@ class LinearRe extends React.Component{
                 
                 <Row className='matrix' style={{ padding: '10px 40px' }}>
                     <Button type="primary" onClick={this.onClickCalculator}>คำนวณ</Button>
-                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 </Row>
                 
                 

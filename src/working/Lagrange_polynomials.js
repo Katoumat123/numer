@@ -4,7 +4,7 @@ import { Input, Button } from 'antd'
 import { InputXY } from '../input/inputmatrix'
 import { calLagrange,copyArray } from './cal_all'
 import apis from '../Api/index'
-import Modal_Example from '../input/model'
+
 class Lagrange extends React.Component {
 
     state = {
@@ -13,7 +13,7 @@ class Lagrange extends React.Component {
         Point: [],
         valueX: '',
         data: "",
-        isModalVisible: false,
+       
         apiData: [],
         hasData: false
     }
@@ -23,23 +23,19 @@ class Lagrange extends React.Component {
         await apis.getInter().then(res => { tempData = res.data })
         this.setState({ apiData: tempData })
         this.setState({ hasData: true })
-        /* console.log(tempData); */
+        this.onClickInsert()
     }
 
-    onClickOk = e => {
-        this.setState({ isModalVisible: false })
-    }
+   
 
-    onClickInsert = e => {
+    onClickInsert(){
        
-        let index = e.currentTarget.getAttribute('name').split('_')
-        index = parseInt(index[1])
         this.setState({
-            matrixA: copyArray(this.state.apiData[index]["n"], this.state.apiData[index]["matrixA"]),
-            Point: [...this.state.apiData[index]["point"]],
-            n: this.state.apiData[index]["n"],
-            valueX: this.state.apiData[index]["x"],
-            isModalVisible: false
+            matrixA: copyArray(this.state.apiData[1]["n"], this.state.apiData[1]["matrixA"]),
+            Point: [...this.state.apiData[1]["point"]],
+            n: this.state.apiData[1]["n"],
+            valueX: this.state.apiData[1]["x"],
+           
         })
     }
 
@@ -47,6 +43,9 @@ class Lagrange extends React.Component {
     onClickExample = e => {
         if (!this.state.hasData) {
             this.getData()
+        }
+        else{
+            this.onClickInsert()
         }
         this.setState({ isModalVisible: true })
     }
@@ -90,23 +89,16 @@ class Lagrange extends React.Component {
     render() {
 
         return (
-            <div className="newtondevide">
-                 <Modal_Example
-                    visible={this.state.isModalVisible}
-                    onOk={this.onClickOk}
-                    hasData={this.state.hasData}
-                    apiData={this.state.apiData}
-                    onClick={this.onClickInsert}
-                />
+            <div className="TopRow">
                 <h1 className="Ontop">Lagrange polynomials</h1>
                
                 <Row>
                     <Row className='rowButtonmatrix'>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixdel}> ADD point </Button>
+                            <Button type="primary" onClick={this.onClickmatrixadd}> ADD point </Button>
                         </Col>
                         <Col className='buttonmatrix'>
-                            <Button type="primary" onClick={this.onClickmatrixadd}> Del point </Button>
+                            <Button type="primary" onClick={this.onClickmatrixdel}> Del point </Button>
                         </Col>
 
 
@@ -123,7 +115,7 @@ class Lagrange extends React.Component {
                 </Row>
                 <Row>
                     <div style={{ padding: '0px 40px' }}>
-                        กรอก ค่า X ที่ต้องการหา
+                        กรอก ค่า X
                     </div>
                 </Row>
                 <Row style={{ width: '100px', padding: '10px 40px' }}>
@@ -147,7 +139,7 @@ class Lagrange extends React.Component {
                 </Row>
                 <Row className='matrix' style={{ padding: '10px 40px' }}>
                     <Button type="primary" onClick={this.onClickCalculator}>คำนวณ</Button>
-                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 </Row>
                 <div>
                     {this.state.data}

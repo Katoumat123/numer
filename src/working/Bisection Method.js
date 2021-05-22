@@ -2,7 +2,7 @@ import React from 'react'
 import { Button,Input } from 'antd';
 import { calBisection } from './cal_all.js'
 import apis from '../Api/index'
-import Modal_Example from '../input/model'
+
 
 class Bisection extends React.Component {
     state ={
@@ -11,9 +11,9 @@ class Bisection extends React.Component {
         XR: '',
         ERROR: '',
         result: '',
-        isModalVisible: false,
         apiData: [],
         hasData: false,
+
     }
 
     async getData()
@@ -22,25 +22,18 @@ class Bisection extends React.Component {
         await apis.getRoot().then(res => {tempData = res.data})
         this.setState({apiData: tempData})
         this.setState({hasData: true})
+        this.onClickInsert()
         /* console.log(tempData); */
     }
 
-    onClickOk = e =>{
-        this.setState({isModalVisible: false})
-    }
+    
 
-    onClickInsert = e =>{
-/*         console.log(e.currentTarget);
-        console.log(e.target);
-        console.log(e.currentTarget.getAttribute('name'));
-        console.log(e.target.name); */
-        let index = e.currentTarget.getAttribute('name').split('_')
-            index = parseInt(index[1])
+    onClickInsert(){
             this.setState({
-                Equation: this.state.apiData[index]["equation"],
-                XL: this.state.apiData[index]["xl"],
-                XR: this.state.apiData[index]["xr"],
-                ERROR: this.state.apiData[index]["error"],
+                Equation: this.state.apiData[0]["equation"],
+                XL: this.state.apiData[0]["xl"],
+                XR: this.state.apiData[0]["xr"],
+                ERROR: this.state.apiData[0]["error"],
                 isModalVisible: false
             })
     }
@@ -87,14 +80,8 @@ class Bisection extends React.Component {
 
     render() {
         return (
-            <div className="allinbisetion" >
-                 <Modal_Example
-                    visible = {this.state.isModalVisible}
-                    onOk = {this.onClickOk}
-                    hasData = {this.state.hasData}
-                    apiData = {this.state.apiData}
-                    onClick = {this.onClickInsert}
-                />
+            <div className="TopRow" >
+              
                 <h1 className="Ontop">Bisection Method</h1>
                 <div>
                
@@ -107,10 +94,11 @@ class Bisection extends React.Component {
                     <span className="Text_Input_2"> XR : </span>
                     <span><Input placeholder="2.0" onChange={this.getXR} className="Input_2" value ={this.state.XR} /></span>
                     <span className="Text_Input_2"> ERROR : </span>
-                    <span><Input placeholder="0.000001" onChange={this.getERR} className="Input_3" value ={this.state.ERROR} /></span>
-                    <span className="Poom"><Button type="primary" onClick={this.show_value} >Calculate</Button></span>
-                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                    <span><Input placeholder="0.000001" onChange={this.getERR} className="Input_4" value ={this.state.ERROR} /></span>
+                    
                 </div>
+                <span className="Poom"><Button type="primary" onClick={this.show_value} >คำนวณ</Button></span>
+                <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 <div>
                     {this.state.result}
                 </div>

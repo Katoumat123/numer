@@ -16,7 +16,7 @@ class Elimination extends React.Component{
         matrixA : [[],[]],
         matrixB : [],
         result : "",
-        isModalVisible: false,
+        
         apiData: [],
         topre: "",
         hasData: false
@@ -28,30 +28,27 @@ class Elimination extends React.Component{
         await apis.getmatrix().then(res => {tempData = res.data})
         this.setState({apiData: tempData})
         this.setState({hasData: true})
+        this.onClickInsert()
         /* console.log(tempData); */
     }
-    onClickInsert = e =>{
-       
-                let index = e.currentTarget.getAttribute('name').split('_')
-                    index = parseInt(index[1])
+    onClickInsert(){
                     this.setState({
-                        matrixA: copyArray(this.state.apiData[index]["n"],this.state.apiData[index]["matrixA"]),
-                        matrixB: [...this.state.apiData[index]["matrixB"]],
-                        n: this.state.apiData[index]["n"],
-                        ERROR : this.state.apiData[index]["error"],
-                        isModalVisible: false
+                        matrixA: copyArray(this.state.apiData[0]["n"],this.state.apiData[1]["matrixA"]),
+                        matrixB: [...this.state.apiData[0]["matrixB"]],
+                        n: this.state.apiData[0]["n"],
+                        ERROR : this.state.apiData[0]["error"],
+                        
                     })
             }
 
-    onClickOk = e =>{
-        this.setState({isModalVisible: false})
-    }
+  
 
   
     onClickExample = e =>{
         if(!this.state.hasData){
             this.getData()
         }
+
         this.setState({isModalVisible: true})
     }
         OnChangeMatrixA = e =>{
@@ -91,14 +88,8 @@ class Elimination extends React.Component{
         }
     render(){
         return(
-            <div className="allingausseElimination">
-                 <Modal_Example
-                    visible = {this.state.isModalVisible}
-                    onOk = {this.onClickOk}
-                    hasData = {this.state.hasData}
-                    apiData = {this.state.apiData}
-                    onClick = {this.onClickInsert}
-                />
+            <div className="TopRow">
+              
                 <h1 className ="Ontop">Gauss Elimination Method</h1>
                
               
@@ -113,9 +104,10 @@ class Elimination extends React.Component{
                     <Col >
                         <MatrixInputB n={this.state.n} onChange={this.OnChangeMatrixB} value={this.state.matrixB}/>
                     </Col>
-                    <span className="Poom"><Button type="primary" onClick = {this.onCal}>Calculate</Button></span>
-                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                    
                 </Row>
+                    <span className="Poom"><Button type="primary" onClick = {this.onCal}>คำนวณ</Button></span>
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                     
                 <div>
                     {this.state.topre}

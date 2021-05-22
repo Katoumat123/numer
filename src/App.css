@@ -3,6 +3,12 @@
 .App {
   text-align: center;
 }
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+
 
 #components-layout-demo-top-side .logo {
   float: left;
@@ -14,11 +20,88 @@
 
 .ant-row-rtl #components-layout-demo-top-side .logo {
   float: right;
-  margin: 16px 0 16px 24px;
+  margin: 24px 0 24px 36px;
 }
 
 .site-layout-background {
   background: #fff;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(480deg);
+  }
+}
+
+#components-layout-demo-side .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+  background:gainsboro;
+}
+.Ontop{
+  font-size: calc(10px + 2vmin);
+}
+.Input_1{
+  width: 15%;
+  border-radius: 5px;
+}
+.Input_2{
+  width: 4%;
+  margin-top: 15px;
+  border-radius: 5px;
+}
+.Input_3{
+  margin-top: 10px;
+  width: 7%;
+  border-radius: 5px;
+}
+.Poom{
+  margin-left: 10px;
+  border-radius: 5px;
+  color:aquamarine;
+}
+.matrix-input{
+  width: 50px;
+  text-align: center;
+}
+.buttonmatrix {
+  margin-right: 5px;
+
+}
+.ant-btn-primary {
+  
+  color: #fff;
+  margin: 10px;
+  border-color: rgb(136, 255, 1);
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  -webkit-box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+}
+.matrixip{
+  border-radius: 5px;
+}
+
+.result{
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.ontopresult{
+  margin-top: 10px;
+  font-size: calc(5px + 2vmin);
+}
+
+.Input_4{
+  margin-top: 10px;
+  width: 10%;
+  border-radius: 5px;
 }
 
 

@@ -12,7 +12,7 @@ export function copyArray(n,matrix1){
    let arr = []
     for(let i = 0;i < n ; i++){
         arr.push([])
-        arr[i] = [].concat(matrix1[i])
+        arr[i] = [...matrix1[i]]
     }
     return arr;
 
@@ -63,7 +63,7 @@ export function calBisection  (initialEquation ,initialXL,initialXR,initialError
 
       
         //arr.push({key : i , iteration : i.toString() ,xm : xm.toFixed(15).toString() ,error : checkError.toFixed(15).toString()})
-        arr.push(<div> {i}: {xm.toFixed(15).toString()}</div>)
+        arr.push(<div> iteration:{i}: {xm.toFixed(15).toString()} Error:{checkError.toFixed(15).toString()}</div>)
         i++;
     
     }
@@ -106,7 +106,7 @@ export function fasepositioncal( init_xl, init_xr, init_error,init_fx){
         }
         tmp_er = math.abs(math.divide(math.subtract(new_x,x),new_x))
         x = new_x;
-        data.push(<div>{i}: z is {x.toFixed(15).toString()}</div>)
+        data.push(<div> iteration:{i}: x is {x.toFixed(15).toString()} Error:{tmp_er.toString()}</div>)
         i++;
     }
 
@@ -148,7 +148,7 @@ export function calOnepoint(initialEquation ,initialX,initialError){
          oldX = X
          
         
-        arr.push(<div>i :{i} iterration :{i.toString()} x:  {X.toFixed(15).toString()} error : {checkError.toFixed(15).toString()}</div>)
+        arr.push(<div> :{i} iterration :{i.toString()} x:  {X.toFixed(15).toString()} error : {checkError.toFixed(15).toString()}</div>)
         i++
         
      }
@@ -301,8 +301,8 @@ export function calCramer(n, initialMatrix1, initialMatrix2) {
 
 export function calElimination(n, initialMatrix1, initialMatrix2) {
 
-    let matrix1=initialMatrix1
-    let matrix2=initialMatrix2
+    let matrix1=copyArray(n,initialMatrix1)
+    let matrix2=[...initialMatrix2]
     
     
     
@@ -350,8 +350,8 @@ export function calElimination(n, initialMatrix1, initialMatrix2) {
 
 export function calJordan(n, initialMatrix1, initialMatrix2) {
 
-    let matrix1=initialMatrix1
-    let matrix2=initialMatrix2
+    let matrix1 = copyArray(n,initialMatrix1)
+    let matrix2 = [...initialMatrix2]
     
     
     
@@ -516,8 +516,8 @@ export function calLu(n, initialMatrix1, initialMatrix2) {
 export function calJacobi(n, initialMatrix1, initialMatrix2,initialError) {
 
     let check = true;
-    let matrix1=initialMatrix1
-    let matrix2=initialMatrix2
+    let matrix1 = copyArray(n,initialMatrix1)
+    let matrix2 = [...initialMatrix2]
     
     let error = initialError
 
@@ -593,8 +593,8 @@ export function calJacobi(n, initialMatrix1, initialMatrix2,initialError) {
 export function calSeidel(n, initialMatrix1, initialMatrix2,initialError) {
 
     let check = true;
-    let matrix1=initialMatrix1
-    let matrix2=initialMatrix2
+    let matrix1 = copyArray(n,initialMatrix1)
+    let matrix2 = [...initialMatrix2]
     
     let error = initialError
 

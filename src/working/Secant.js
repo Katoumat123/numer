@@ -21,21 +21,18 @@ class Secant extends React.Component {
     await apis.getRoot().then(res => { tempData = res.data })
     this.setState({ apiData: tempData })
     this.setState({ hasData: true })
+    this.onClickInsert()
     /* console.log(tempData); */
 }
 
-  onClickOk = e => {
-    this.setState({ isModalVisible: false })
-  }
+  
 
-  onClickInsert = e => {
-    let index = e.currentTarget.getAttribute('name').split('_')
-    index = parseInt(index[1])
+  onClickInsert() {
     this.setState({
-      Equation: this.state.apiData[index]["equation"],
-      x0: this.state.apiData[index]["xl"],
-      x1: this.state.apiData[index]["xr"],
-      ERROR: this.state.apiData[index]["error"],
+      Equation: this.state.apiData[4]["equation"],
+      x0: this.state.apiData[4]["xl"],
+      x1: this.state.apiData[4]["xr"],
+      ERROR: this.state.apiData[4]["error"],
       isModalVisible: false
     })
   }
@@ -64,14 +61,8 @@ class Secant extends React.Component {
   }
   render() {
     return (
-      <div className="allinSecant" >
-        <Modal_Example
-                    visible = {this.state.isModalVisible}
-                    onOk = {this.onClickOk}
-                    hasData = {this.state.hasData}
-                    apiData = {this.state.apiData}
-                    onClick = {this.onClickInsert}
-                />
+      <div className="TopRow" >
+        
         <h1 className ="Ontop">Secant</h1>
                 <div>
                     <span>F(x) =</span>
@@ -83,11 +74,12 @@ class Secant extends React.Component {
                     <span className="Text_Input_2"> X1 =</span>
                     <span><Input placeholder="2.0"  className="Input_2" onChange ={this.getx1} value={this.state.x1}/></span>
                     <span className="Text_Input_2"> ERROR : </span>
-                    <span><Input placeholder="0.000001"  className="Input_3" onChange ={this.getERROR} value={this.state.ERROR}/></span>
-                    <span className="Poom"><Button type="primary" onClick = {this.getvalue}>Calculate</Button></span>
-                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >Exsample</Button></span>
+                    <span><Input placeholder="0.000001"  className="Input_4" onChange ={this.getERROR} value={this.state.ERROR}/></span>
+                    
                 
                 </div>
+                    <span className="Poom"><Button type="primary" onClick = {this.getvalue}>คำนวณ</Button></span>
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 <div>
                     {this.state.Result}
                 </div>
