@@ -11,7 +11,6 @@ class Falseposition extends React.Component {
       XR: '',
       ERROR: '',
       result: '',
-      
       apiData: [],
       hasData: false
   };
@@ -26,9 +25,7 @@ class Falseposition extends React.Component {
       
       /* console.log(tempData); */
   }
-  onClickOk = e =>{
-      this.setState({isModalVisible: false})
-  }
+  
 
 
   onClickInsert() {
@@ -37,13 +34,16 @@ class Falseposition extends React.Component {
           XL: this.state.apiData[1]["xl"],
           XR: this.state.apiData[1]["xr"],
           ERROR: this.state.apiData[1]["error"],
-          isModalVisible: false
+          
       })
   }
 
   onClickExample = e =>{
       if(!this.state.hasData){
           this.getData()
+      }
+      else{
+          this.onClickInsert()
       }
       this.setState({isModalVisible: true})
   }
@@ -74,7 +74,7 @@ class Falseposition extends React.Component {
   };
 
   show_varlue = (e) => {
-      this.setState({ result: fasepositioncal(this.state.XL, this.state.XR, this.state.ERROR, this.state.Equation) });
+      this.setState({ result: fasepositioncal( this.state.Equation,this.state.XL, this.state.XR, this.state.ERROR) });
   };
 
   render() {

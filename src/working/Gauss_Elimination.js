@@ -29,11 +29,11 @@ class Elimination extends React.Component{
         this.setState({apiData: tempData})
         this.setState({hasData: true})
         this.onClickInsert()
-        /* console.log(tempData); */
+       
     }
     onClickInsert(){
                     this.setState({
-                        matrixA: copyArray(this.state.apiData[0]["n"],this.state.apiData[1]["matrixA"]),
+                        matrixA: copyArray(this.state.apiData[0]["n"],this.state.apiData[0]["matrixA"]),
                         matrixB: [...this.state.apiData[0]["matrixB"]],
                         n: this.state.apiData[0]["n"],
                         ERROR : this.state.apiData[0]["error"],
@@ -47,6 +47,9 @@ class Elimination extends React.Component{
     onClickExample = e =>{
         if(!this.state.hasData){
             this.getData()
+        }
+        else{
+            this.onClickInsert()
         }
 
         this.setState({isModalVisible: true})
