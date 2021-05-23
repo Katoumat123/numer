@@ -1,27 +1,24 @@
-FROM node:14
+FROM node:14.16
 
-WORKDIR /usr/src/app/client
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app/max
 
-COPY . .
+COPY . /usr/src/app
 RUN npm install
+# RUN npm install react-scripts -g
 
 EXPOSE 3000
 
 CMD ["npm" , "start"]
 
 
+# FROM node:14
 
+# WORKDIR /usr/src/app/client
 
-# FROM node:14.16
-
-# RUN mkdir /usr/src/app
-
-
-
-# COPY .
+# COPY . .
 # RUN npm install
-# RUN npm install react-scripts -g
 
 # EXPOSE 3000
 
-# CMD ["npm" , "start"] 
+# CMD ["npm" , "start"]

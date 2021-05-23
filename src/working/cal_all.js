@@ -9,10 +9,10 @@ function checkEquation (equation){
     return equation
 }
 export function copyArray(n,matrix1){
-   let arr = []
+   let arr = []                                                     // []
     for(let i = 0;i < n ; i++){
-        arr.push([])
-        arr[i] = [...matrix1[i]]
+        arr.push([])                                                // [[]]
+        arr[i] = [...matrix1[i]]                                     // [[],[]]
     }
     return arr;
 
@@ -27,7 +27,7 @@ export function calBisection  (initialEquation ,initialXL,initialXR,initialError
 
 
     let arr = []
-
+    arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>);
 
     let xm = math.divide(math.add(xl,xr),2)
 
@@ -310,56 +310,85 @@ export function calCramer(n, initialMatrix1, initialMatrix2) {
     return arr
 }
 
-export function calElimination(n, initialMatrix1, initialMatrix2) {
 
-    let matrix1=copyArray(n,initialMatrix1)
-    let matrix2=[...initialMatrix2]
+// export function calElimination(n, initialMatrix1, initialMatrix2) {
+
+//     let matrix1=copyArray(n,initialMatrix1)
+//     let matrix2=[...initialMatrix2]
     
+    
+
+//     let arr = []
+//     let X = []
+//     arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+
+//     for(let i = 0 ; i < n ; i++){
+//         matrix1[i].push(matrix2[i]) 
+//         X.push(1)
+//     }
+//     console.log(matrix1)
+   
+//     for(let i = 1;i < n ; i++){
+//         for(let j = i ;j < n ; j++){
+
+//             let divide = matrix1[i-1][i-1]
+//             let multi = matrix1[j][i-1]
+
+//             for(let k = i-1 ; k < n+1;k++){
+//                 matrix1[j][k] = matrix1[j][k] - ((matrix1[i-1][k]/divide)*multi)
+                
+//             }
+    
+//         }
+         
+//     }
+
+//     for(let i = n-1 ;i >= 0 ; i--){
+//         let sum = 0;
+//         for(let j = 0 ; j < n ;j++){
+//             sum = sum + matrix1[i][j]*X[j];
+//         }
+//         sum = sum - matrix1[i][i]
+//         X[i] = ((matrix1[i][n] - sum)/matrix1[i][i])
+        
+//     }
+//    // X.map((x,i) => arr.push({key : i , x : 'X'+(i+1) , valuex : x.toFixed(5)}))
+//     X.map((x,i) => arr.push(<div className ="result">x{i+1}= {x.toFixed(15)}</div>))
+
+        
+//     return arr
+// }
+
+export function calElimination(n, initialMatrix1, initialMatrix2) {
+    let matrix1 = copyArray(n,initialMatrix1)
+    let matrix2 = [...initialMatrix2]
+    let inv_matrixA = math.inv(matrix1)
+
+    // let temp_matrix1 = copyArray(n, matrix1)
 
     let arr = []
-    let X = []
     arr.push(<div className="ontopresult"> คำตอบของการคำนวนคือ</div>)
+    let X = [];
 
-    for(let i = 0 ; i < n ; i++){
-        matrix1[i].push(matrix2[i]) 
-        X.push(1)
-    }
-    console.log(matrix1)
-   
-    for(let i = 1;i < n ; i++){
-        for(let j = i ;j < n ; j++){
-
-            let divide = matrix1[i-1][i-1]
-            let multi = matrix1[j][i-1]
-
-            for(let k = i-1 ; k < n+1;k++){
-                matrix1[j][k] = matrix1[j][k] - ((matrix1[i-1][k]/divide)*multi)
-                
-            }
     
+            X = math.multiply(inv_matrixA, matrix2)
+        
+        
+        for(let i = 0 ;i < X.length ; i++){
+            arr.push(<div className="result"> X{i+1} = {X[i].toFixed(15)}</div>)
         }
-         
+        //arr.push({key : i , x : 'X'+(i+1) ,valuex : X[i]})
+            
+
+        return arr
     }
 
-    for(let i = n-1 ;i >= 0 ; i--){
-        let sum = 0;
-        for(let j = 0 ; j < n ;j++){
-            sum = sum + matrix1[i][j]*X[j];
-        }
-        sum = sum - matrix1[i][i]
-        X[i] = ((matrix1[i][n] - sum)/matrix1[i][i])
-        
-    }
-   // X.map((x,i) => arr.push({key : i , x : 'X'+(i+1) , valuex : x.toFixed(5)}))
-    X.map((x,i) => arr.push(<div className ="result">x{i+1}= {x.toFixed(15)}</div>))
+    
 
-        
-    return arr
-}
 
-// function calEliminationInverse(n,initialMatrix1,initialMatrix2){
-//     let martrix1 = 
-// }
+
+
+
 
 export function calJordan(n, initialMatrix1, initialMatrix2) {
 

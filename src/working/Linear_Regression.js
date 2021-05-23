@@ -56,19 +56,19 @@ class LinearRe extends React.Component{
         let value = e.target.value
         this.state.matrixA[parseInt(index[0])][parseInt(index[1])] = (value)
        
-       
-    
     }
     onClickmatrixadd = (e)=>{
         if(this.state.n < 10){
             this.setState({n : this.state.n+=1})
             this.state.matrixA.push([])
+            //console.log(this.setState.matrixA)
         }
     }
     onClickmatrixdel = (e)=>{
         if(this.state.n > 2){
             this.setState({n : this.state.n -= 1})
             this.state.matrixA.pop([])
+            
         }
     }
     onClickCalculator = (e)=>{

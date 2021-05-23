@@ -102,7 +102,9 @@ class Jacobi extends React.Component{
             
                 <h1 className ="Ontop">Jacobi-Iteration Method</h1>
              
-                <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
+                <Button Button type="primary" onClick={this.onClickDel}>Del</Button>
+                {this.state.n} x {this.state.n}
+                <Button Button type="primary" onClick={this.onClickAdd}>Add</Button>
                 <Row>
                     <Col span ='6'>
                         <MatrixInputA n={this.state.n} onChange={this.OnChangeMatrixA} value={this.state.matrixA}/>

@@ -104,7 +104,9 @@ class Conjugate extends React.Component{
                
                 <h1 className ="Ontop">Conjugate Gradient Method</h1>
                
-                <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
+                <Button Button type="primary" onClick={this.onClickDel}>Del</Button>
+                {this.state.n} x {this.state.n}
+                <Button Button type="primary" onClick={this.onClickAdd}>Add</Button>
                 <Row>
                     <Col span ='6'>
                         <MatrixInputA n={this.state.n} onChange={this.OnChangeMatrixA} value={this.state.matrixA}/>
@@ -115,11 +117,11 @@ class Conjugate extends React.Component{
                     <Col >
                         <MatrixInputB n={this.state.n} onChange={this.OnChangeMatrixB} value={this.state.matrixB}/>
                     </Col>
-
+                    <span className="Poom"><Button type="primary" onClick ={this.onPoom}>คำนวณ</Button></span>
+                    <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
                 </Row>
                 <span><Input placeholder="0.000001" onChange={this.getERR} className="Input_4" value={this.state.ERROR}/></span>
-                <span className="Poom"><Button type="primary" onClick ={this.onPoom}>คำนวณ</Button></span>
-                <span className="Poom"><Button type="primary" onClick={this.onClickExample} >ตัวอย่าง</Button></span>
+                
                 <div>
                     {this.state.result}
                 </div>

@@ -24,7 +24,8 @@ class Cremeru extends React.Component{
     async getData()
     {
         let tempData = null
-        await apis.getmatrix().then(res => {tempData = res.data})
+        await apis.getmatrix().then(res => {tempData = res.data
+        console.log(res.data)})
         this.setState({apiData: tempData})
         this.setState({hasData: true})
         this.onClickInsert()
@@ -51,6 +52,8 @@ class Cremeru extends React.Component{
         }
         this.setState({isModalVisible: true})
     }
+
+    
         OnChangeMatrixA = e =>{
             let changedArr = this.state.matrixA
             let index = e.target.name.split('_')
@@ -72,6 +75,7 @@ class Cremeru extends React.Component{
                 this.state.matrixA.push([])
                 this.setState({n:this.state.n+1})
             } 
+            
         }
     
         onClickDel = e =>{
@@ -91,7 +95,9 @@ class Cremeru extends React.Component{
             <div className ="TopRow">
                 <h1 className ="Ontop">Cramer Rule</h1>
                
-                <Button onClick={this.onClickDel}>Del</Button>{this.state.n} x {this.state.n}<Button onClick={this.onClickAdd}>Add</Button>
+                <Button Button type="primary" onClick={this.onClickDel}>Del</Button>
+                {this.state.n} x {this.state.n}
+                <Button Button type="primary" onClick={this.onClickAdd}>Add</Button>
                 <Row>
                     <Col span ='6'>
                         <MatrixInputA n={this.state.n} onChange={this.OnChangeMatrixA} value={this.state.matrixA}/>
