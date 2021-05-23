@@ -1,7 +1,7 @@
 FROM node:14.16
 
 RUN mkdir /usr/src/app
-WORKDIR /usr/src/app/max
+WORKDIR /usr/src/app/client
 
 COPY . /usr/src/app
 RUN npm install
@@ -22,3 +22,4 @@ CMD ["npm" , "start"]
 # EXPOSE 3000
 
 # CMD ["npm" , "start"]
+# docker run -it --rm -d -p 192.168.4.4:3000:3000  (ชื่อเราที่ตั้ง):latest

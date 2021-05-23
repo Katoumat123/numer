@@ -375,7 +375,7 @@ export function calElimination(n, initialMatrix1, initialMatrix2) {
         
         
         for(let i = 0 ;i < X.length ; i++){
-            arr.push(<div className="result"> X{i+1} = {X[i].toFixed(15)}</div>)
+            arr.push(<div className="result"> X{i+1} = {X[i].toFixed(14)}</div>)
         }
         //arr.push({key : i , x : 'X'+(i+1) ,valuex : X[i]})
             
