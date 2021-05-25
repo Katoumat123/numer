@@ -3,6 +3,7 @@ var regression = require('regression')
 var interpolationQuadratic_Poly_linear = require('interpolating-polynomial')
 const Spline = require('cubic-spline');
 const math = require('mathjs');
+
 function checkEquation (equation){
     equation = equation.replaceAll('X','x')
 
@@ -968,19 +969,27 @@ export function calLinear(initialMatrix1,initialX,n){
 
     const result = regression.linear(arr);
     let X = initialX
-    const gradient = parseFloat(result.equation[0]);
-    const yIntercept = parseFloat(result.equation[1]);
-    console.log(arr)
-    console.log(X)
-     console.log(gradient)
-     console.log(yIntercept)
+    const a1 = parseFloat(result.equation[0]);
+    const a0 = parseFloat(result.equation[1]); 
+    // console.log(arr)
+    // console.log(X)
+    //  console.log(gradient)
+    //  console.log(yIntercept)
+    console.log(result);
+    let allarr = []
+    let all2 = []
+    for(let i = 0 ; i < n ;i++){
+        allarr.push((a0 + (a1*arr[i][0])).toFixed(5))
+    }
+    
+
     let ans = []
     ans.push(<div className = "ontopresult"> คำตอบของการคำนวนคือ</div>)
     //ans.push({key :  1 ,fx : 'f('+X+')' , valuex : (yIntercept + (gradient*X)).toFixed(5) })
-	ans.push(<div className ="result">f({X}) = {(yIntercept + (gradient*X)).toFixed(5)}</div>)
-
-    return ans
-
+	ans.push(<div className ="result">f({X}) = {(a0 + (a1*X)).toFixed(5)}</div>)
+    all2.push(ans,allarr)
+    return all2
+ 
 }
 
 export function calPolynoial(initialMatrix1,initialX,n){
@@ -999,9 +1008,9 @@ export function calPolynoial(initialMatrix1,initialX,n){
     const a0 = parseFloat(result.equation[0]);
     const a1 = parseFloat(result.equation[1]);
     const a2 = parseFloat(result.equation[2]);
-    console.log(a0)
-    console.log(a1)
-    console.log(a2)
+    // console.log(a0)
+    // console.log(a1)
+    // console.log(a2)
 
     let ans = [] 
     
